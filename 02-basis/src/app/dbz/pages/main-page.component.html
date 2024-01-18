@@ -3,10 +3,14 @@
 
 <div class="row">
   <div class="col">
-    <app-dbz-list></app-dbz-list>
+    <app-dbz-list
+      [characterList]="characters"
+      (onEmitId)="onDeleteCharacter($event)"
+    ></app-dbz-list>
+    <!-- <pre>{{ dbzService.characters | json }}</pre> -->
   </div>
 
   <div class="col">
-    <app-dbz-form></app-dbz-form>
+    <app-dbz-form (onNewCharacter)="onNewCharacter($event)"></app-dbz-form>
   </div>
 </div>
