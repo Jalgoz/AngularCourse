@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import type { Gif, GifsResponse } from '../interfaces/gifs.interfaces';
 
 @Injectable({
-  providedIn: 'root', // Because is global
+  providedIn: 'root', // Because is a global service
 })
 export class GifsService {
   private _gifList: Gif[] = [];
