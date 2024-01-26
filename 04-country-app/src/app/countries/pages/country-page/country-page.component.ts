@@ -9,7 +9,6 @@ import { Country } from '../../interfaces/country.interface';
 @Component({
   selector: 'app-country-page',
   templateUrl: './country-page.component.html',
-  styles: ``,
 })
 export class CountryPageComponent implements OnInit {
   // When we have to do a verification in the HTML

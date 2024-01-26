@@ -7,7 +7,6 @@ import type { Country } from '../../interfaces/country.interface';
 @Component({
   selector: 'app-by-region-page',
   templateUrl: './by-region-page.component.html',
-  styles: ``,
 })
 export class ByRegionPageComponent {
   public countries: Country[] = [];
