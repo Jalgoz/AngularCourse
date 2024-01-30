@@ -1,6 +1,6 @@
 <div class="py-3">
   <p-panel [showHeader]="false">
-    <h1>Pipes Basics</h1>
+    <h1>Basics pipes</h1>
 
     <p>Include pipes in Angular - Usually in the common modules</p>
   </p-panel>
@@ -40,6 +40,8 @@
       <ol>
         <li>Date | date:'long':'GMT-6'</li>
         <li>Date | date:'long':'GMT-4'</li>
+        <li>Date | date:'long':'GMT-4':'es-HN'</li>
+        <li>Date | date:'long':'GMT-4':'fr-CA'</li>
       </ol>
     </p-card>
   </div>
@@ -59,6 +61,8 @@
       <ol>
         <li>{{ customDate | date : "long" : "GMT-6" }}</li>
         <li>{{ customDate | date : "long" : "GMT-4" }}</li>
+        <li>{{ customDate | date : "long" : "GMT-4" : "es-HN" }}</li>
+        <li>{{ customDate | date : "long" : "GMT-4" : "fr-CA" }}</li>
       </ol>
     </p-card>
   </div>
