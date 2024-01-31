@@ -2,6 +2,73 @@
   <p-panel [showHeader]="false">
     <h1>Custom pipes</h1>
 
-    <p>Custom pipes - Created by us</p>
+    <p>Custom pipes - Created by {{ "US" | toggleCase : isUpperCase }}</p>
   </p-panel>
+</div>
+
+<p-toolbar>
+  <div class="p-toolbar-group-start">
+    <p-button
+      label="ToggleCase"
+      icon="pi pi-search"
+      (click)="toggleUpperCase()"
+    ></p-button>
+  </div>
+
+  <div class="p-toolbar-group-end">
+    <p-button
+      class="mr-2"
+      label="For name"
+      icon="pi pi-sort"
+      styleClass="p-button-success"
+      (click)="changeSort('name')"
+    ></p-button>
+    <p-button
+      class="mr-2"
+      label="Can Fly"
+      icon="pi pi-sort"
+      styleClass="p-button-danger"
+      (click)="changeSort('canFly')"
+    ></p-button>
+    <p-button
+      class="mr-2"
+      label="To Color"
+      icon="pi pi-sort"
+      styleClass="p-button-help"
+      (click)="changeSort('color')"
+    ></p-button>
+  </div>
+</p-toolbar>
+
+<div class="grid">
+  <div class="col mt-2">
+    <p-panel header="Heroes">
+      <p-table
+        [value]="heroes | sortBy : sortBy"
+        [tableStyle]="{ 'min-width': '50rem' }"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Name</th>
+            <th>Fly</th>
+            <th>Color</th>
+          </tr>
+        </ng-template>
+        <!-- <tbody>
+          <tr *ngFor="let hero of heroes">
+            <td>{{ hero.name }}</td>
+            <td>{{ hero.canFly }}</td>
+            <td>{{ hero.color }}</td>
+          </tr>
+        </tbody> -->
+        <ng-template pTemplate="body" let-hero>
+          <tr>
+            <td>{{ hero.name }}</td>
+            <td>{{ hero.canFly | canFly }}</td>
+            <td>{{ hero.color }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-panel>
+  </div>
 </div>
