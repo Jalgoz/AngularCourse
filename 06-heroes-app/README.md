@@ -9,5 +9,3 @@
 ## Api
 - http://localhost:3000/heroes
 - http://localhost:3000/users
-
-
