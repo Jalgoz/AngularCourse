@@ -6,11 +6,21 @@ import type { Hero } from '../interfaces/hero.interface';
   name: 'heroImage',
 })
 export class HeroImagePipe implements PipeTransform {
-  transform(hero: Hero): string {
-    if (!hero.id && !hero.alt_img) return 'assets/no-image.png';
+  private defaultImage: string = 'assets/no-image.png';
 
-    if (hero.alt_img) return hero.alt_img;
+  transform(hero: Hero): Promise<string> {
+    if (!hero.id && !hero.alt_img) return Promise.resolve(this.defaultImage);
 
-    return `assets/heroes/${hero.id}.jpg`;
+    if (hero.alt_img) {
+      return new Promise<string>((resolve, reject) => {
+        const img = new Image();
+        img.src = hero.alt_img!;
+
+        img.onload = () => resolve(hero.alt_img!);
+        img.onerror = () => resolve(this.defaultImage);
+      });
+    }
+
+    return Promise.resolve(`assets/heroes/${hero.id}.jpg`);
   }
 }

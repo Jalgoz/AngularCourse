@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Delete Hero</h2>
+<div mat-dialog-content>
+  Would you like to delete {{ this.data.superhero }}?
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()" color="primary">No</button>
+  <button mat-button (click)="onConfirm()" color="warn">Delete</button>
+</div>
