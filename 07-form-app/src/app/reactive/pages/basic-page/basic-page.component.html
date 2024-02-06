@@ -1,0 +1,84 @@
+<h2>Reactives: Basics</h2>
+<hr />
+
+<div class="row">
+  <div class="col">
+    <form autocomplete="off">
+      <!-- Product field -->
+      <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">Product</label>
+        <div class="col-sm-9">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Name of the product"
+          />
+
+          <span class="form-text text-danger">
+            <!-- Must be 3 letters -->
+            error message
+          </span>
+        </div>
+      </div>
+
+      <!-- Product field -->
+      <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">Price</label>
+        <div class="col-sm-9">
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Price of the product"
+          />
+          <span class="form-text text-danger">
+            Price must be greater than 0
+          </span>
+        </div>
+      </div>
+
+      <!-- Stock field -->
+      <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">Stock</label>
+        <div class="col-sm-9">
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Stock of the product"
+          />
+
+          <span class="form-text text-danger">
+            The stock must be greater than 0
+          </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <button type="submit" class="btn btn-primary float-end">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <span>Valid</span>
+    <pre>{{ "object" | json }}</pre>
+
+    <span>Pristine</span>
+    <pre>{{ "object" | json }}</pre>
+
+    <span>Touched</span>
+    <pre>{{ "object" | json }}</pre>
+
+    <span>Value</span>
+    <pre>{{ "object" | json }}</pre>
+
+    <span>Price</span>
+    <pre>{{ "object" | json }}</pre>
+
+    <span>Product</span>
+    <pre>{{ "object" | json }}</pre>
+  </div>
+</div>
