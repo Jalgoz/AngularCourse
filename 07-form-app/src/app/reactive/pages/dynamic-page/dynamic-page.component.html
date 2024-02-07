@@ -1,13 +1,19 @@
 <h2>Reactive: <small> Dynamic </small></h2>
 <hr />
 
-<form autocomplete="off">
+<form autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSubmit()">
   <!-- Name -->
   <div class="mb-3 row">
     <label class="col-sm-3 col-form-label">Name</label>
     <div class="col-sm-9">
-      <input class="form-control" placeholder="Person name" />
-      <span class="form-text text-danger"> error message </span>
+      <input
+        class="form-control"
+        placeholder="Person name"
+        formControlName="name"
+      />
+      <span *ngIf="isValidField('name')" class="form-text text-danger">{{
+        getFieldError("name")
+      }}</span>
     </div>
   </div>
 
@@ -16,26 +22,64 @@
     <label class="col-sm-3 col-form-label">Add</label>
     <div class="col-sm-9">
       <div class="input-group">
-        <input class="form-control" placeholder="Add favorite" />
+        <input
+          class="form-control"
+          placeholder="Add favorite"
+          [formControl]="newFavorite"
+        />
 
-        <button class="btn btn-outline-primary" type="button">
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          (click)="onAddToFavorites()"
+        >
           Add favorite
         </button>
       </div>
+
+      <span
+        *ngIf="
+          isValidField('favoriteGames') || isValidSimpleField(this.newFavorite)
+        "
+        class="form-text text-danger"
+      >
+        {{
+          getSimpleFieldError(this.newFavorite) ||
+            "You must add at least one favorite game"
+        }}
+      </span>
     </div>
   </div>
 
   <!-- List of favorites games -->
   <div class="mb-3 row">
     <label class="col-sm-3 col-form-label">Favorites</label>
-    <div class="col-sm-9">
-      <div class="mb-1">
+    <div class="col-sm-9" formArrayName="favoriteGames">
+      <div
+        class="mb-1"
+        *ngFor="let item of favoriteGames.controls; let i = index"
+      >
         <div class="input-group">
-          <input class="form-control" />
+          <input
+            class="form-control"
+            [formControlName]="i"
+            [value]="item.value"
+          />
 
-          <button class="btn btn-outline-danger" type="button">Delete</button>
+          <button
+            class="btn btn-outline-danger"
+            type="button"
+            (click)="onDeleteFavorite(i)"
+          >
+            delete
+          </button>
         </div>
-        <span class="form-text text-danger"> This field is required </span>
+        <span
+          *ngIf="isValidFieldInArray(favoriteGames, i)"
+          class="form-text text-danger"
+        >
+          {{ getFieldArrayError(favoriteGames, i) }}
+        </span>
       </div>
     </div>
   </div>
@@ -55,7 +99,7 @@
 <br />
 
 <span>Value</span>
-<pre>{{ "object" | json }}</pre>
+<pre>{{ favoriteGames.controls[1] }}</pre>
 <br />
 
 <span>Add game</span>
