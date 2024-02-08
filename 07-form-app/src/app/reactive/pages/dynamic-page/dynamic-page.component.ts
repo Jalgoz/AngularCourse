@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ValidatorsService } from 'src/app/shared/services/validators.service';
 
 @Component({
   selector: 'app-dynamic-page',
@@ -27,92 +28,40 @@ export class DynamicPageComponent {
     Validators.minLength(3),
   ]);
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private validatorsService: ValidatorsService
+  ) {}
 
   get favoriteGames(): FormArray {
     return this.myForm.get('favoriteGames') as FormArray;
   }
 
   public isValidField(field: string): boolean | null {
-    return (
-      this.myForm.controls[field].errors && this.myForm.controls[field].touched
-    );
+    return this.validatorsService.isValidField(this.myForm, field);
   }
 
   public isValidSimpleField(simpleField: FormControl): boolean | null {
-    return simpleField.errors && simpleField.touched;
-  }
-
-  getSimpleFieldError(simpleField: FormControl): string | null {
-    if (!simpleField) return null;
-
-    const errors = simpleField.errors;
-
-    if (!errors) return null;
-
-    for (const key of Object.keys(errors)) {
-      switch (key) {
-        case 'required':
-          return 'This field is required';
-        case 'minlength':
-          return `This field must have at least ${errors['minlength'].requiredLength} characters`;
-        case 'min':
-          return `The minimum value is ${errors['min'].min}`;
-      }
-    }
-
-    return null;
-  }
-
-  getFieldError(field: string): string | null {
-    if (!this.myForm.controls[field]) return null;
-
-    const errors = this.myForm.controls[field].errors;
-
-    if (!errors) return null;
-
-    for (const key of Object.keys(errors)) {
-      switch (key) {
-        case 'required':
-          return 'This field is required';
-        case 'minlength':
-          return `This field must have at least ${errors['minlength'].requiredLength} characters`;
-        case 'min':
-          return `The minimum value is ${errors['min'].min}`;
-      }
-    }
-
-    return null;
-  }
-
-  getFieldArrayError(arrayField: FormArray, index: number): string | null {
-    if (!arrayField.controls[index]) return null;
-
-    const errors = arrayField.controls[index].errors;
-
-    if (!errors) return null;
-
-    for (const key of Object.keys(errors)) {
-      switch (key) {
-        case 'required':
-          return 'This field is required';
-        case 'minlength':
-          return `This field must have at least ${errors['minlength'].requiredLength} characters`;
-        case 'min':
-          return `The minimum value is ${errors['min'].min}`;
-      }
-    }
-
-    return null;
+    return this.validatorsService.isValidSimpleField(simpleField);
   }
 
   public isValidFieldInArray(
     formArray: FormArray,
     index: number
   ): boolean | null {
-    return (
-      formArray.controls[index].errors && formArray.controls[index].touched
-    );
+    return this.validatorsService.isValidFieldInArray(formArray, index);
+  }
+
+  getSimpleFieldError(simpleField: FormControl): string | null {
+    return this.validatorsService.getSimpleFieldError(simpleField);
+  }
+
+  getFieldError(field: string): string | null {
+    return this.validatorsService.getFieldError(this.myForm, field);
+  }
+
+  getFieldArrayError(arrayField: FormArray, index: number): string | null {
+    return this.validatorsService.getFieldArrayError(arrayField, index);
   }
 
   public onAddToFavorites(): void {

@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col">
-    <form autocomplete="off">
+    <form autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSubmit()">
       <!-- Name -->
       <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Name</label>
@@ -12,10 +12,11 @@
             type="text"
             class="form-control"
             placeholder="User name and last name"
+            formControlName="name"
           />
 
-          <span class="form-text text-danger">
-            Must be first and last name
+          <span *ngIf="isValidField('name')" class="form-text text-danger">
+            {{ getFieldError("name", "Must be first and last name") }}
           </span>
         </div>
       </div>
@@ -24,8 +25,15 @@
       <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Email</label>
         <div class="col-sm-9">
-          <input type="email" class="form-control" placeholder="User email" />
-          <span class="form-text text-danger"> Email error </span>
+          <input
+            type="email"
+            class="form-control"
+            placeholder="User email"
+            formControlName="email"
+          />
+          <span *ngIf="isValidField('email')" class="form-text text-danger">
+            {{ getFieldError("email", "Email is not valid") }}
+          </span>
         </div>
       </div>
 
@@ -33,9 +41,14 @@
       <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Username</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" placeholder="Username" />
-          <span class="form-text text-danger">
-            Username could not be strider
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Username"
+            formControlName="username"
+          />
+          <span *ngIf="isValidField('username')" class="form-text text-danger">
+            {{ getFieldError("username") }}
           </span>
         </div>
       </div>
@@ -44,10 +57,20 @@
       <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Password</label>
         <div class="col-sm-9">
-          <input type="password" class="form-control" placeholder="Password" />
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            formControlName="password"
+          />
 
-          <span class="form-text text-danger">
-            Password must be greater than 6 characters
+          <span *ngIf="isValidField('password')" class="form-text text-danger">
+            {{
+              getFieldError(
+                "password",
+                "Password must contain a capital letter, lowercase letter and a number "
+              )
+            }}
           </span>
         </div>
       </div>
@@ -60,9 +83,12 @@
             type="password"
             class="form-control"
             placeholder="Confirm password"
+            formControlName="password2"
           />
 
-          <span class="form-text text-danger"> Passwords must match </span>
+          <span *ngIf="isValidField('password2')" class="form-text text-danger">
+            Passwords must match
+          </span>
         </div>
       </div>
 
@@ -77,23 +103,23 @@
   </div>
 </div>
 
-<h2>Form Valid:</h2>
-<h2>Form Status:</h2>
-<h2>Form Pending:</h2>
+<h2>Form Valid: {{ myForm.valid }}</h2>
+<h2>Form Status: {{ myForm.status }}</h2>
+<h2>Form Pending: {{ myForm.pending }}</h2>
 <h2>Form errors</h2>
-<pre>{{ "form" | json }}</pre>
+<pre>{{ myForm.errors | json }}</pre>
 
 <h5>Name</h5>
-<pre>{{ "form" | json }}</pre>
+<pre>{{ myForm.controls["name"].errors | json }}</pre>
 
 <h5>Email</h5>
-<pre>{{ "form" | json }}</pre>
+<pre>{{ myForm.controls["email"].errors | json }}</pre>
 
 <h5>Username</h5>
-<pre>{{ "form" | json }}</pre>
+<pre>{{ myForm.controls["username"].errors | json }}</pre>
 
 <h5>Password</h5>
-<pre>{{ "form" | json }}</pre>
+<pre>{{ myForm.controls["password"].errors | json }}</pre>
 
 <h5>Confirm</h5>
-<pre>{{ "form" | json }}</pre>
+<pre>{{ myForm.value.password2 | json }}</pre>
