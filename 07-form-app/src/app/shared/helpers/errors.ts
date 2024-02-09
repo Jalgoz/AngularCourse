@@ -18,6 +18,8 @@ export const getErrorFunction = (
         return 'You cannot use Strider as a username';
       case 'pattern':
         return message ? message : 'The pattern is not valid';
+      case 'emailTaken':
+        return 'The email is already taken';
     }
   }
 

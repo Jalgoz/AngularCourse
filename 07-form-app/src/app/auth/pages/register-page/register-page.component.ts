@@ -8,6 +8,7 @@ import {
 } from 'src/app/shared/services/getMessageErrors.service';
 import { ValidatorsService } from 'src/app/shared/services/validators.service';
 import type { GetError } from 'src/app/shared/interfaces/getError.interface';
+import { EmailValidatorService } from 'src/app/shared/validators/email-validator.service';
 
 @Component({
   selector: 'app-register-page',
@@ -26,40 +27,50 @@ import type { GetError } from 'src/app/shared/interfaces/getError.interface';
   ],
 })
 export class RegisterPageComponent {
-  public myForm: FormGroup = this.fb.group({
-    name: [
-      '',
-      [
-        Validators.required,
-        Validators.pattern(this.validatorsService.firstNameAndLastNamePattern),
+  public myForm: FormGroup = this.fb.group(
+    {
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            this.validatorsService.firstNameAndLastNamePattern
+          ),
+        ],
       ],
-    ],
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.pattern(this.validatorsService.emailPattern),
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(this.validatorsService.emailPattern),
+        ],
+        [new EmailValidatorService()],
       ],
-    ],
-    username: [
-      '',
-      [
-        Validators.required,
-        this.validatorsService.cantBeStrider,
-        Validators.minLength(3),
+      username: [
+        '',
+        [
+          Validators.required,
+          this.validatorsService.cantBeStrider,
+          Validators.minLength(3),
+        ],
       ],
-    ],
-    password: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.pattern(this.validatorsService.passwordPattern),
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern(this.validatorsService.passwordPattern),
+        ],
+        ,
       ],
-      ,
-    ],
-    password2: ['', [Validators.required]],
-  });
+      password2: ['', [Validators.required]],
+    },
+    {
+      validators: [
+        this.validatorsService.isFieldOneEqualFieldTwo('password', 'password2'),
+      ],
+    }
+  );
 
   constructor(
     private fb: FormBuilder,
@@ -80,9 +91,11 @@ export class RegisterPageComponent {
   }
 
   public onSubmit(): void {
-    if (this.myForm.invalid) {
+    if (this.myForm.status !== 'VALID') {
       this.myForm.markAllAsTouched();
       return;
     }
+
+    console.log(this.myForm.value);
   }
 }
