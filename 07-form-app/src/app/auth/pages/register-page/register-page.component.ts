@@ -1,12 +1,29 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { getErrorFunction } from 'src/app/shared/helpers/errors';
+import {
+  GET_ERROR_TOKEN,
+  GetMessageErrorsService,
+} from 'src/app/shared/services/getMessageErrors.service';
 import { ValidatorsService } from 'src/app/shared/services/validators.service';
+import type { GetError } from 'src/app/shared/interfaces/getError.interface';
 
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
   styles: [],
+  providers: [
+    {
+      provide: GetMessageErrorsService,
+      useFactory: (getError: GetError) => new GetMessageErrorsService(getError),
+      deps: [GET_ERROR_TOKEN],
+    },
+    {
+      provide: GET_ERROR_TOKEN,
+      useValue: getErrorFunction,
+    },
+  ],
 })
 export class RegisterPageComponent {
   public myForm: FormGroup = this.fb.group({
@@ -46,7 +63,8 @@ export class RegisterPageComponent {
 
   constructor(
     private fb: FormBuilder,
-    private validatorsService: ValidatorsService
+    private validatorsService: ValidatorsService,
+    private getMessageErrorsService: GetMessageErrorsService
   ) {}
 
   public isValidField(field: string): boolean | null {
@@ -54,7 +72,11 @@ export class RegisterPageComponent {
   }
 
   getFieldError(field: string, message?: string): string | null {
-    return this.validatorsService.getFieldError(this.myForm, field, message);
+    return this.getMessageErrorsService.getFieldError(
+      this.myForm,
+      field,
+      message
+    );
   }
 
   public onSubmit(): void {

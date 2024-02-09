@@ -6,12 +6,29 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { getErrorFunction } from 'src/app/shared/helpers/errors';
+import { GetError } from 'src/app/shared/interfaces/getError.interface';
+import {
+  GET_ERROR_TOKEN,
+  GetMessageErrorsService,
+} from 'src/app/shared/services/getMessageErrors.service';
 import { ValidatorsService } from 'src/app/shared/services/validators.service';
 
 @Component({
   selector: 'app-dynamic-page',
   templateUrl: './dynamic-page.component.html',
   styles: [],
+  providers: [
+    {
+      provide: GetMessageErrorsService,
+      useFactory: (getError: GetError) => new GetMessageErrorsService(getError),
+      deps: [GET_ERROR_TOKEN],
+    },
+    {
+      provide: GET_ERROR_TOKEN,
+      useValue: getErrorFunction,
+    },
+  ],
 })
 export class DynamicPageComponent {
   public myForm: FormGroup = this.fb.group({
@@ -30,7 +47,8 @@ export class DynamicPageComponent {
 
   constructor(
     private fb: FormBuilder,
-    private validatorsService: ValidatorsService
+    private validatorsService: ValidatorsService,
+    private getMessageErrorsService: GetMessageErrorsService
   ) {}
 
   get favoriteGames(): FormArray {
@@ -53,15 +71,15 @@ export class DynamicPageComponent {
   }
 
   getSimpleFieldError(simpleField: FormControl): string | null {
-    return this.validatorsService.getSimpleFieldError(simpleField);
+    return this.getMessageErrorsService.getSimpleFieldError(simpleField);
   }
 
   getFieldError(field: string): string | null {
-    return this.validatorsService.getFieldError(this.myForm, field);
+    return this.getMessageErrorsService.getFieldError(this.myForm, field);
   }
 
   getFieldArrayError(arrayField: FormArray, index: number): string | null {
-    return this.validatorsService.getFieldArrayError(arrayField, index);
+    return this.getMessageErrorsService.getFieldArrayError(arrayField, index);
   }
 
   public onAddToFavorites(): void {

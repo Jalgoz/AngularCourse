@@ -5,12 +5,29 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { getErrorFunction } from 'src/app/shared/helpers/errors';
+import { GetError } from 'src/app/shared/interfaces/getError.interface';
+import {
+  GET_ERROR_TOKEN,
+  GetMessageErrorsService,
+} from 'src/app/shared/services/getMessageErrors.service';
 import { ValidatorsService } from 'src/app/shared/services/validators.service';
 
 @Component({
   selector: 'app-basic-page',
   templateUrl: './basic-page.component.html',
   styles: [],
+  providers: [
+    {
+      provide: GetMessageErrorsService,
+      useFactory: (getError: GetError) => new GetMessageErrorsService(getError),
+      deps: [GET_ERROR_TOKEN],
+    },
+    {
+      provide: GET_ERROR_TOKEN,
+      useValue: getErrorFunction,
+    },
+  ],
 })
 export class BasicPageComponent implements OnInit {
   /* public myForm: FormGroup = new FormGroup(
@@ -25,7 +42,8 @@ export class BasicPageComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private validatorsService: ValidatorsService
+    private validatorsService: ValidatorsService,
+    private getMessageErrorsService: GetMessageErrorsService
   ) {
     this.myForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -43,7 +61,7 @@ export class BasicPageComponent implements OnInit {
   }
 
   getFieldError(field: string): string | null {
-    return this.validatorsService.getFieldError(this.myForm, field);
+    return this.getMessageErrorsService.getFieldError(this.myForm, field);
   }
 
   public onSave(): void {
