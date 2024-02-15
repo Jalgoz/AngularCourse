@@ -11,7 +11,7 @@ export class FullScreenPageComponent implements AfterViewInit {
   public divMap?: ElementRef;
 
   // Use the ngAfterViewInit to make sure the divMap is available to use when the map is created
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     if (!this.divMap) throw new Error('Html element is not available');
 
     const map = new Map({
