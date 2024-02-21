@@ -7,6 +7,7 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { InputFieldComponent } from './components/input-field/input-field.component';
+import { ButtonFormComponent } from './components/button-form/button-form.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { InputFieldComponent } from './components/input-field/input-field.compon
     RegisterPageComponent,
     AuthLayoutComponent,
     InputFieldComponent,
+    ButtonFormComponent,
   ],
   imports: [CommonModule, AuthRoutingModule, ReactiveFormsModule],
 })

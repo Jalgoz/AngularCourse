@@ -1,5 +1,6 @@
 import { Component, Input, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+
 import { GetErrorsService } from 'src/app/shared/services/get-errors.service';
 import { ValidationService } from 'src/app/shared/services/validation.service';
 
@@ -12,6 +13,7 @@ export class InputFieldComponent {
   @Input() public field: string = '';
   @Input() public type: string = '';
   @Input() public myForm?: FormGroup;
+  @Input() public optionalLabel?: string;
   private validationService = inject(ValidationService);
   private getErrorsService = inject(GetErrorsService);
 

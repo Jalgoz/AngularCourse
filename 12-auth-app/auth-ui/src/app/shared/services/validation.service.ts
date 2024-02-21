@@ -11,6 +11,12 @@ export class ValidationService {
 
   public passwordsMatch(password: string, confirmPassword: string) {
     return (formGroup: FormGroup): ValidationErrors | null => {
+      /* if (
+        formGroup.get(confirmPassword)?.touched &&
+        formGroup.get(password)?.touched
+      )
+        return null; */
+
       const password1 = formGroup.get(password)?.value;
       const password2 = formGroup.get(confirmPassword)?.value;
 
