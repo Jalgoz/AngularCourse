@@ -1,0 +1,19 @@
+<div class="wrap-input100 m-b-8" [formGroup]="myForm!">
+  <span
+    class="label-input100"
+    [ngClass]="{ 'text-red': !isValidField(field) }"
+    >{{ field | titlecase }}</span
+  >
+  <input
+    class="input100"
+    [type]="type"
+    [placeholder]="field"
+    formControlName="{{ field }}"
+    [ngClass]="{ error: !isValidField(field) }"
+  />
+  <span
+    class="error-message"
+    [ngClass]="{ 'visible-false': isValidField(field) }"
+    >{{ getErrors!(field) }}</span
+  >
+</div>

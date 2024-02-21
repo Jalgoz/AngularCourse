@@ -94,11 +94,6 @@ textarea {
   border: none;
 }
 
-textarea:focus,
-input:focus {
-  border-color: transparent !important;
-}
-
 /*---------------------------------------------*/
 button {
   outline: none !important;
@@ -190,7 +185,6 @@ button:hover {
 .wrap-input100 {
   width: 100%;
   position: relative;
-  border-bottom: 2px solid #d9d9d9;
 }
 
 .label-input100 {
@@ -212,6 +206,21 @@ button:hover {
   height: 55px;
   background: transparent;
   padding: 0 7px 0 43px;
+  border-bottom: 2px solid black;
+}
+
+.error {
+  border-bottom: 2px solid red;
+}
+
+.error-message {
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  color: red;
+}
+
+.text-red {
+  color: red;
 }
 
 /*---------------------------------------------*/

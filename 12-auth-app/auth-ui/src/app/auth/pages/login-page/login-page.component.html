@@ -6,27 +6,51 @@
 >
   <span class="login100-form-title p-b-49"> Login </span>
 
-  <div class="wrap-input100 m-b-23">
-    <span class="label-input100">Email</span>
+  <!-- <div class="wrap-input100 m-b-8">
+    <span
+      class="label-input100"
+      [ngClass]="{ 'text-red': !isValidField('email') }"
+      >Email</span
+    >
     <input
       class="input100"
       type="email"
       placeholder="email"
       formControlName="email"
+      [ngClass]="{ error: !isValidField('email') }"
     />
-    <span class="focus-input100" *ngIf="!isValidField('email')">Error</span>
+    <span
+      class="error-message"
+      [ngClass]="{ 'visible-false': isValidField('email') }"
+      >{{ getErrors("email") }}</span
+    >
   </div>
 
   <div class="wrap-input100">
-    <span class="label-input100">Password</span>
+    <span
+      class="label-input100"
+      [ngClass]="{ 'text-red': !isValidField('password') }"
+      >Password</span
+    >
     <input
       class="input100"
       type="password"
       placeholder="password"
       formControlName="password"
     />
-    <span class="focus-input100" *ngIf="!isValidField('password')">Error</span>
-  </div>
+    <span
+      [ngClass]="{ 'visible-false': isValidField('password') }"
+      class="error-message"
+      >{{ getErrors("password") }}</span
+    >
+  </div> -->
+
+  <auth-input-field [field]="'email'" [type]="'email'" [myForm]="myForm" />
+  <auth-input-field
+    [field]="'password'"
+    [type]="'password'"
+    [myForm]="myForm"
+  />
 
   <div class="text-right p-t-8 p-b-31"></div>
 
