@@ -18,6 +18,10 @@ export class InputFieldComponent {
   private getErrorsService = inject(GetErrorsService);
 
   public getErrors(field: string, message?: string): string | null {
+    if (this.myForm?.get(field)?.getError('login')) {
+      message = this.myForm?.get(field)?.getError('login');
+    }
+
     return this.getErrorsService.getFieldError(
       this.myForm!.get(field) as FormControl,
       message
