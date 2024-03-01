@@ -40,9 +40,12 @@ export class AuthService {
     } catch (error) {
       console.log(error);
       if (error.code === 11000) {
-        throw new BadRequestException(
-          `${createUserDto.email} email already taken`,
-        );
+        throw new BadRequestException({
+          field: 'email',
+          message: 'This email is already taken',
+          type: 'Bad request',
+          status: 400,
+        });
       } else {
         throw new InternalServerErrorException('An error occurred');
       }
@@ -54,11 +57,21 @@ export class AuthService {
     const user = await this.userModel.findOne({ email });
 
     if (!user) {
-      throw new NotFoundException('Invalid email');
+      throw new NotFoundException({
+        field: 'email',
+        message: 'Invalid email',
+        type: 'Not found exception',
+        status: 404,
+      });
     }
 
     if (!bcrypt.compareSync(password, user.password)) {
-      throw new BadRequestException('Invalid password');
+      throw new BadRequestException({
+        field: 'password',
+        message: 'Invalid password',
+        type: 'Bad request',
+        status: 400,
+      });
     }
 
     const { password: _, ...userData } = user.toJSON();
