@@ -8,6 +8,8 @@ import {
   AuthStatus,
   CheckTokenResponse,
   LoginResponse,
+  RegisterResponse,
+  RegisterUser,
   User,
 } from '../interfaces';
 
@@ -33,6 +35,21 @@ export class AuthService {
     const body = { email, password };
 
     return this.http.post<LoginResponse>(url, body).pipe(
+      map(({ user, token }) =>
+        this.setAuthentication(user, token, AuthStatus.authenticated)
+      ),
+      catchError((error) => {
+        this._authStatus.set(AuthStatus.unauthenticated);
+
+        return throwError(() => error.error);
+      })
+    );
+  }
+
+  public register(user: RegisterUser): Observable<boolean> {
+    const url = `${this.baseUrl}/auth/register`;
+
+    return this.http.post<RegisterResponse>(url, user).pipe(
       map(({ user, token }) =>
         this.setAuthentication(user, token, AuthStatus.authenticated)
       ),
@@ -85,7 +102,6 @@ export class AuthService {
     this._currentUser.set(user);
     this._authStatus.set(status);
     this.saveToken(token);
-    console.log(status);
 
     return status === AuthStatus.authenticated ? true : false;
   }

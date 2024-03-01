@@ -28,7 +28,7 @@ export class LoginPageComponent {
     this.authService.login(email, password).subscribe({
       next: () => this.router.navigateByUrl('/dashboard'),
       error: (error) => {
-        this.myForm.controls[error.error].setErrors({ login: error.message });
+        this.myForm.controls[error.field]?.setErrors({ login: error.message });
         Swal.fire('Error', error.message, 'error');
       },
     });

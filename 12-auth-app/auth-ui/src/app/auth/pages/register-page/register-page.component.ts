@@ -1,15 +1,21 @@
+import { Router } from '@angular/router';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
+import Swal from 'sweetalert2';
 import { ValidationService } from 'src/app/shared/services/validation.service';
+import { AuthService } from '../../services/auth.service';
+import type { RegisterUser } from '../../interfaces';
 
 @Component({
   templateUrl: './register-page.component.html',
   styles: [],
 })
 export class RegisterPageComponent {
-  private fb = inject(FormBuilder);
-  private validationService = inject(ValidationService);
+  private fb: FormBuilder = inject(FormBuilder);
+  private validationService: ValidationService = inject(ValidationService);
+  private authService: AuthService = inject(AuthService);
+  private router: Router = inject(Router);
   public myForm = this.fb.group(
     {
       name: [
@@ -53,7 +59,16 @@ export class RegisterPageComponent {
       return;
     }
 
-    console.log(this.myForm.value);
+    delete this.myForm.value.confirmPassword;
+
+    const user = this.myForm.value as RegisterUser;
+    this.authService.register(user).subscribe({
+      next: () => this.router.navigateByUrl('/dashboard'),
+      error: (error) => {
+        this.myForm.controls[error.field]?.setErrors({ login: error.message });
+        Swal.fire('Error', error.message, 'error');
+      },
+    });
   }
 
   public isValidForm(): boolean {
